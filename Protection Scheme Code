@@ -1,0 +1,61 @@
+function breaker = CurrentDerivativeProtection(I_load, I_ref)
+% Fast di/dt + overcurrent protection with debounce.
+% No auto-reclose: once tripped, breaker stays open until reset externally.
+%
+% breaker = 1 (closed/on), 0 (tripped/off)
+
+%% Simulation Time Scaling
+S  = 36000;     % real_time = S * sim_time
+Ts = 1e-4;      % Simulink sample time
+
+%% Protection Settings (Real-World Time Base)
+tau_real         = 1e-3;    % Current filter time constant (1 ms)
+t_db_real        = 0.5e-3;  % Debounce before tripping (0.5 ms)
+theta_trip_real  = 5e6;     % di/dt trip level [A/s]
+OC_trip_mult     = 1.50;    % Trip if |I| > 150% of expected current
+
+%% Convert to Sim-Time
+Ts_real = Ts * S;
+alpha   = Ts_real / (tau_real + Ts_real); % Filter coefficient
+
+%% Internal States
+persistent i_f_prev breaker_state db_real
+if isempty(i_f_prev)
+    i_f_prev      = 0;
+    breaker_state = 1;   % Start closed
+    db_real       = 0;
+end
+
+%% 1) Filter Current
+i_f = i_f_prev + alpha * (I_load - i_f_prev);
+
+%% 2) di/dt in Real Units
+di_dt_real = (i_f - i_f_prev) / Ts_real;
+
+%% 3) Trip Decision with Debounce
+% Check di/dt threshold
+trip_request = (abs(di_dt_real) >= theta_trip_real);
+
+% Overcurrent check based on rated reference
+I_trip_real = OC_trip_mult * I_ref;
+trip_request = trip_request || (abs(i_f) >= I_trip_real);
+
+% Only trip if breaker is still closed
+if breaker_state == 1
+    if trip_request
+        db_real = db_real + Ts_real;
+        if db_real >= t_db_real
+            breaker_state = 0;   % Trip
+            db_real       = 0;
+        end
+    else
+        db_real = 0;             % Reset debounce if condition clears
+    end
+end
+
+%% Output
+breaker  = breaker_state;
+i_f_prev = i_f;
+
+end
+
