@@ -66,14 +66,14 @@ This model enables simulation and analysis of the following:
 
 ---
 
-## 🚀 Future Enhancements
+## Future Enhancements
 
 Planned or recommended improvements include:
 
 - Model Predictive Control (MPC) for enhanced DC bus regulation
-- DC fault detection, isolation, and protection system
+- More comprehensive DC fault detection, isolation, and protection system
 - Hardware-in-the-Loop (HIL) implementation
-- AI-assisted forecasting for EMS optimisation
+- AI-assisted forecasting for EMS optimisation and wind speed and solar irradiance prediction 
 
 ---
 
