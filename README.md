@@ -4,7 +4,7 @@ This repository contains the design, modelling, and control implementation of a 
 
 ---
 
-## ⚡ System Overview
+##  System Overview
 
 The DC microgrid integrates the following components:
 
@@ -19,7 +19,7 @@ The system aims to maintain a constant 48 V DC bus voltage while meeting the var
 
 ---
 
-## 🧠 Control & Energy Management
+## Control & Energy Management
 
 ### 1. Maximum Power Point Tracking (MPPT)
 
@@ -33,8 +33,7 @@ MPPT algorithms are implemented to maximise renewable power harvesting:
 All converters are PWM-controlled and designed for dynamic and stable operation:
 
 - **Boost Converters (PV & Wind):** regulate input voltage and track maximum power
-- **Bidirectional Buck-Boost Converter (Battery):** handles charging/discharging to balance load and generation
-- **Supercapacitor Converter:** responds rapidly to transients to stabilise the DC bus
+- **Bidirectional Buck-Boost Converter (Battery AND Super Capacitor):** handles charging/discharging to balance load and generation
 
 ### 3. Energy Management System (EMS)
 
@@ -46,7 +45,7 @@ The EMS coordinates power flow among renewables and storage:
 
 ---
 
-## 🔍 Key Features
+##  Key Features
 
 - 48 V DC microgrid suitable for small-scale residential or off-grid applications
 - Variable load demand profile for realistic operation
@@ -56,20 +55,14 @@ The EMS coordinates power flow among renewables and storage:
 
 ---
 
-## 📂 Repository Structure
 
-
----
-
-## 📊 Simulation Capabilities
+##  Simulation Capabilities
 
 This model enables simulation and analysis of the following:
 
 - PV and wind variability and weather-dependent power production
 - EMS response to changing load and renewable conditions
 - DC bus voltage stability and transient behaviour
-- Battery State of Charge (SoC) and supercapacitor energy usage
-- Converter duty cycles and closed-loop control responses
 
 ---
 
