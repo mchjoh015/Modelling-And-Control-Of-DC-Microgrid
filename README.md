@@ -77,7 +77,7 @@ Planned or recommended improvements include:
 
 ---
 
-## 🧑‍💻 Requirements
+## Requirements
 
 - MATLAB R2022b or later
 - Simulink + Simscape Electrical
